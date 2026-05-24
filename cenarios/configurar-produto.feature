@@ -1,55 +1,57 @@
-Funcionalidade: Configurar Produto
+# language: pt
 
+Funcionalidade: Configurar Produto
   Como cliente da EBAC-SHOP
   Quero configurar meu produto de acordo com meu tamanho e gosto
-              E escolher a quantidade
+  E escolher a quantidade
   Para depois inserir no carrinho
 
-        Esquema do Cenário: Configurar produto com todas as opções obrigatórias selecionadas
-            Dado que estou na página de um produto
-             Quando eu seleciono a cor "<cor>", o tamanho "<tamanho>" e a quantidade "<quantidade>"
-              E clico em adicionar ao carrinho
-             Então o produto deve ser adicionado ao carrinho com as configurações escolhidas
-              E o botão de compra deve aparecer
+  Cenário: Configurar produto com cor, tamanho e quantidade
+    Dado que estou na página de um produto
+    Quando eu seleciono a cor "Azul"
+    E seleciono o tamanho "M"
+    E seleciono a quantidade "3"
+    E clico em "Adicionar ao Carrinho"
+    Então o produto deve ser adicionado ao carrinho
 
-            Exemplos:
-              | cor      | tamanho | quantidade |
-              | Vermelho | P       | 1          |
-              | Azul     | M       | 2          |
-              | Preto    | G       | 5          |
+  Cenário: Cor é obrigatória
+    Dado que estou na página de um produto
+    Quando eu não seleciono a cor
+    E seleciono o tamanho "M"
+    E seleciono a quantidade "3"
+    E clico em "Adicionar ao Carrinho"
+    Então devo ver mensagem de erro
 
-        Esquema do Cenário: Tentar adicionar produto sem selecionar opções obrigatórias
-            Dado que estou na página de um produto
-             Quando eu não seleciono <opcoes>
-              E tento clicar em adicionar ao carrinho
-             Então devo ver uma mensagem de erro
-              E o botão de compra não deve aparecer
+  Cenário: Tamanho é obrigatório
+    Dado que estou na página de um produto
+    Quando eu seleciono a cor "Azul"
+    E não seleciono o tamanho
+    E seleciono a quantidade "3"
+    E clico em "Adicionar ao Carrinho"
+    Então devo ver mensagem de erro
 
-            Exemplos:
-              | opcoes                          |
-              | cor                             |
-              | tamanho                         |
-              | quantidade                      |
-              | cor, tamanho e quantidade       |
+  Cenário: Quantidade é obrigatória
+    Dado que estou na página de um produto
+    Quando eu seleciono a cor "Azul"
+    E seleciono o tamanho "M"
+    E não seleciono a quantidade
+    E clico em "Adicionar ao Carrinho"
+    Então devo ver mensagem de erro
 
-        Esquema do Cenário: Tentar adicionar mais de 10 produtos
-            Dado que estou na página de um produto
-             Quando eu seleciono quantidade maior que <quantidade>
-              E tento adicionar ao carrinho
-             Então devo ver uma mensagem de erro informando o limite de <limite> produtos
+  Cenário: Não permite mais de 10 produtos por venda
+    Dado que estou na página de um produto
+    Quando eu seleciono a cor "Vermelho"
+    E seleciono o tamanho "G"
+    E seleciono a quantidade "11"
+    E clico em "Adicionar ao Carrinho"
+    Então devo ver mensagem de erro "Máximo de 10 produtos permitido"
 
-            Exemplos:
-              | quantidade | limite |
-              | 11         | 10     |
-              | 12         | 10     |
-
-        Esquema do Cenário: Usar o botão limpar
-            Dado que estou na página de um produto com configurações selecionadas
-             Quando eu clico no botão "<botao>"
-             Então todas as seleções devem voltar ao estado original
-              E o botão de compra não deve aparecer
-
-            Exemplos:
-              | botao  |
-              | limpar |
-  
+  Cenário: Botão limpar restaura estado original
+    Dado que estou na página de um produto
+    Quando eu seleciono a cor "Preto"
+    E seleciono o tamanho "P"
+    E seleciono a quantidade "5"
+    E clico em "Limpar"
+    Então a cor volta ao estado inicial
+    E o tamanho volta ao estado inicial
+    E a quantidade volta ao valor "1"

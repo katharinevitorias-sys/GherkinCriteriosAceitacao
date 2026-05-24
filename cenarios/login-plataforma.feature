@@ -1,27 +1,34 @@
-Funcionalidade: Login na plataforma
+# language: pt
 
+Funcionalidade: Login na Plataforma
   Como cliente da EBAC-SHOP
   Quero fazer o login (autenticação) na plataforma
   Para visualizar meus pedidos
 
-        Esquema do Cenário: Login com credenciais válidas
-            Dado que estou na página de login
-             Quando eu insiro usuário "<usuario>" e senha "<senha>"
-              E clico no botão de login
-             Então devo ser redirecionado para a página de pedidos
+  Cenário: Login com dados válidos
+    Dado que estou na página de login
+    Quando eu preencho o campo "Usuário" com "cliente@ebac.com"
+    E preencho o campo "Senha" com "senha123"
+    E clico em "Entrar"
+    Então devo ser direcionado para a tela de checkout
 
-        Exemplos:
-          | usuario  | senha    |
-          | cliente1 | senha123 |
-          | cliente2 | senhaABC |
+  Cenário: Login com usuário inválido
+    Dado que estou na página de login
+    Quando eu preencho o campo "Usuário" com "usuarioinvalido@ebac.com"
+    E preencho o campo "Senha" com "senha123"
+    E clico em "Entrar"
+    Então devo ver mensagem de alerta "Usuário ou senha inválidos"
 
-        Esquema do Cenário: Login com credenciais inválidas
-            Dado que estou na página de login
-             Quando eu insiro usuário "<usuario>" e senha "<senha>"
-              E clico no botão de login
-             Então devo ver uma mensagem de erro
+  Cenário: Login com senha inválida
+    Dado que estou na página de login
+    Quando eu preencho o campo "Usuário" com "cliente@ebac.com"
+    E preencho o campo "Senha" com "senhaerrada"
+    E clico em "Entrar"
+    Então devo ver mensagem de alerta "Usuário ou senha inválidos"
 
-        Exemplos:
-          | usuario         | senha       |
-          | cliente1        | senhaErrada |
-          | usuarioInvalido | senha123    |
+  Cenário: Login com usuário e senha inválidos
+    Dado que estou na página de login
+    Quando eu preencho o campo "Usuário" com "usuarioinvalido@ebac.com"
+    E preencho o campo "Senha" com "senhaerrada"
+    E clico em "Entrar"
+    Então devo ver mensagem de alerta "Usuário ou senha inválidos"
